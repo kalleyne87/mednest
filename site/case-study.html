@@ -1,0 +1,44 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MedNest case study</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Figtree:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--night:#1e2140;--terra:#e0705a;--sage:#8fc0a9;--gold:#f0b95a;--cream:#faf5ec;--sand:#f3ecdf;--ink:#262a44;--mute:#5d6280}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font:17px/1.65 Figtree,system-ui,sans-serif}
+header{background:var(--night);color:#fff;padding:56px 20px 64px}
+.w{max-width:760px;margin:0 auto}
+h1{font:800 clamp(32px,6vw,48px)/1.1 'Bricolage Grotesque',sans-serif;margin:8px 0 14px}h1 em{color:var(--gold);font-style:normal}
+h2{font:800 24px 'Bricolage Grotesque',sans-serif;margin:40px 0 10px}
+.k{color:var(--sage);font-weight:600;letter-spacing:.12em;text-transform:uppercase;font-size:12px}
+header p{color:#c9ccdf;margin:0}
+main{padding:8px 20px 60px}
+.card{background:var(--sand);border-radius:16px;padding:18px 20px;margin:12px 0}
+.card b{display:block;margin-bottom:2px}
+ol{padding-left:22px}li{margin:8px 0}
+a{color:var(--terra)}
+.row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+footer{color:var(--mute);font-size:14px;padding:0 20px 40px}
+</style></head><body>
+<header><div class="w"><div class="k">Case study</div><h1>A clinical library that <em>admits what it does not know</em></h1>
+<p>MedNest Internal Medicine is a fictional practice. Its staff ask questions in plain language and get cited answers from the practice's own documents.</p></div></header>
+<main class="w">
+<h2>The problem</h2>
+<p>Medical assistants and nurses constantly look things up: danger signs, testing rules, patient advice. Answers live in long PDFs, and a wrong or half-remembered one costs time at best and safety at worst.</p>
+<h2>What the staff member sees</h2>
+<div class="row">
+<div class="card"><b>Cited answers</b>Every answer lists the documents and sections it came from, with the passage one click away.</div>
+<div class="card"><b>Honest gaps</b>If the library does not cover a question, the tool says so and flags it instead of guessing.</div>
+<div class="card"><b>Follow-ups</b>The tool remembers the last few turns, so a short follow-up question works.</div></div>
+<h2>What happens behind it</h2>
+<ol>
+<li>The page sends the question and recent history to the SpecialistAI chat API on Azure (hybrid search, semantic ranking, guardrails).</li>
+<li>Zapier logs every question and feedback tap to a Google Sheet.</li>
+<li>When a question goes unanswered, is marked not helpful, or is sent on by the user, Zapier alerts a clinical lead in Slack.</li>
+<li>A clinical lead drops a new PDF into a Drive folder. Zapier calls a small Azure Function that places it in the ingestion container, and the existing pipeline indexes it.</li></ol>
+<h2>Why it works</h2>
+<p>The answering engine is the same one measured at 87.5% Recall@3, 92.5% Recall@5 and 97.5% faithfulness on a test set. The automation layer turns misses into a to-do list for the people who own the content, so the library improves with use.</p>
+<h2>Limits to know about</h2>
+<p>This is a demo. Login is for show, the library holds public documents only, and the tool is reference material that does not replace clinical judgment.</p>
+<p><a href="portal.html">Back to the tool</a></p>
+</main>
+<footer>MedNest Internal Medicine is a fictional company created for a portfolio demo.</footer>
+</body></html>

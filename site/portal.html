@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MedNest | Clinical Library</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Figtree:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--night:#1e2140;--night2:#2a2e55;--night3:#363a6b;--sand:#f6efe4;--cream:#fffaf2;--paper:#faf6ee;--ink:#1e2140;--soft:#5f6178;--line:#e6dccb;--terra:#e0705a;--sage:#8fc0a9;--sagebg:#e3f0e9;--gold:#f0b95a;--goldbg:#fbeccd;--redbg:#fbe1da}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:"Figtree",system-ui,sans-serif;font-size:16px;line-height:1.55}
+button,textarea,input{font:inherit}button{cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;letter-spacing:-.02em;margin:0}
+.btn{display:inline-block;background:var(--terra);color:#fff;border:0;border-radius:12px;padding:12px 22px;font-weight:600;text-decoration:none;transition:.15s}
+.btn:hover{background:#c95d49}.btn:disabled{opacity:.5;cursor:not-allowed}
+/* login: split screen */
+.loginwrap{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);min-height:100vh}
+.lpanel{background:var(--night);color:#fff;padding:44px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.lpanel .rings{position:absolute;right:-160px;bottom:-160px;width:620px;height:620px;opacity:.85}
+.lpanel h2{font-size:clamp(34px,4.4vw,56px);max-width:420px;line-height:1.02;position:relative}
+.lpanel h2 em{font-style:normal;color:var(--gold)}
+.lpanel p{color:#c9cbe4;max-width:380px;position:relative}
+.lform{display:grid;place-content:center;padding:40px}
+.lform form{width:min(380px,100%)}
+.lform h1{font-size:34px;margin-bottom:6px}.lform .sub{color:var(--soft);margin:0 0 22px}
+.lform label{display:block;font-size:13px;font-weight:600;margin:16px 0 6px}
+.lform input{width:100%;padding:13px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+.lform input:focus{border-color:var(--terra);outline:0}
+.lform .btn{width:100%;margin-top:22px;padding:14px}
+.err{color:#b8412c;font-size:14px;margin-top:12px;min-height:20px}
+.hint{margin-top:14px;background:var(--goldbg);color:#7a4a07;border-radius:12px;padding:10px 14px;font-size:13px}
+.hint code{font-family:"JetBrains Mono",monospace;font-size:12px}
+.back{color:var(--soft);font-size:14px;text-decoration:none;display:inline-block;margin-top:22px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:22px;position:relative}
+.brand small{font-family:"Figtree",sans-serif;font-weight:500;font-size:11px;letter-spacing:.06em;color:#b9bbd8;text-transform:uppercase;display:block;line-height:1;margin-top:3px}
+/* app shell */
+.shell{display:grid;grid-template-columns:292px minmax(0,1fr);min-height:100vh}
+.side{background:var(--night);color:#fff;padding:22px 18px;display:flex;flex-direction:column;gap:20px;position:sticky;top:0;height:100vh}
+.side .newq{width:100%;background:var(--terra);border:0;color:#fff;border-radius:12px;padding:12px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:8px}
+.side .newq:hover{background:#c95d49}
+.side h4{margin:0 0 8px 6px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9a9dc6;font-weight:600}
+.recent{flex:1;overflow:auto;display:grid;align-content:start;gap:4px}
+.recent button{display:flex;gap:10px;align-items:flex-start;text-align:left;background:transparent;border:0;color:#d6d8ee;padding:9px 10px;border-radius:10px;font-size:14px;line-height:1.35}
+.recent button:hover{background:var(--night2)}.recent button.on{background:var(--night3);color:#fff}
+.recent i{flex:none;width:8px;height:8px;border-radius:50%;margin-top:6px;background:var(--sage)}.recent i.gap{background:var(--gold)}
+.recent .none{color:#8a8db5;font-size:13px;padding:6px 10px}
+.safe{background:var(--night2);border-radius:14px;padding:12px 14px;font-size:12.5px;color:#c9cbe4;line-height:1.45}
+.safe b{color:#fff;display:block;margin-bottom:2px}
+.user{display:flex;align-items:center;gap:10px;border-top:1px solid #3a3e6e;padding-top:14px}
+.user .av{width:36px;height:36px;border-radius:50%;background:var(--sage);color:var(--night);display:grid;place-content:center;font-weight:700;font-size:13px;flex:none}
+.user div{font-size:13px;line-height:1.3;min-width:0}.user b{display:block;font-size:14px}.user span{color:#b9bbd8}
+.user button{margin-left:auto;background:transparent;border:1px solid #4a4e82;color:#d6d8ee;border-radius:8px;padding:5px 10px;font-size:12px}
+.main{padding:34px 44px 60px;min-width:0}
+.greet{font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--terra)}
+.main h1{font-size:clamp(32px,4vw,50px);line-height:1.04;margin:6px 0 20px}
+.pill{display:inline-block;font-size:12px;background:var(--goldbg);color:#8a560b;padding:3px 10px;border-radius:999px;font-family:"Figtree";font-weight:600;vertical-align:middle;margin-left:8px;letter-spacing:0}
+.search{display:flex;gap:10px;background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:10px 10px 10px 18px;align-items:flex-end;box-shadow:0 14px 30px -24px rgba(30,33,64,.5)}
+.search:focus-within{border-color:var(--terra)}
+.search textarea{flex:1;border:0;outline:0;resize:none;min-height:46px;max-height:150px;padding:11px 0;background:transparent;color:var(--ink);font-size:17px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 0}
+.chip{background:transparent;border:1.5px solid var(--line);border-radius:999px;padding:7px 14px;font-size:14px;color:var(--ink);transition:.12s}
+.chip:hover{border-color:var(--ink);background:#fff}
+.welcome{margin-top:34px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.tip{background:var(--sand);border-radius:18px;padding:18px}
+.tip b{font-family:"Bricolage Grotesque",sans-serif;font-size:18px;display:block;margin-bottom:4px}
+.tip span{font-size:14px;color:var(--soft)}
+.view{margin-top:26px}
+.qtitle{font-family:"Bricolage Grotesque",sans-serif;font-size:26px;font-weight:600;letter-spacing:-.02em;line-height:1.15;margin:0 0 16px;max-width:820px}
+.cols{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:18px;align-items:start}
+.panel{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px}
+.panel h4{margin:0 0 12px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--soft);font-weight:600}
+.prog{display:grid;gap:10px}
+.prog div{display:flex;gap:12px;align-items:center;color:#a0a1b3;font-size:15px;transition:.2s}
+.prog i{width:20px;height:20px;border-radius:50%;border:2px solid var(--line);display:grid;place-content:center;font-size:11px;color:#fff;font-style:normal}
+.prog .on{color:var(--ink)}.prog .on i{border-color:var(--terra);border-top-color:transparent;animation:spin .8s linear infinite}
+.prog .done{color:var(--ink)}.prog .done i{background:var(--sage);border-color:var(--sage)}.prog .done i:after{content:"\2713"}
+@keyframes spin{to{transform:rotate(360deg)}}
+.answer{font-size:18px;line-height:1.6;margin:0}
+.answer p{margin:0 0 10px}.answer ul{margin:0 0 10px;padding-left:20px}.answer li{margin:6px 0}.cite{display:inline-block;background:var(--goldbg);color:#8a560b;font-weight:700;font-size:12px;border-radius:6px;padding:0 6px;margin:0 2px;vertical-align:2px}
+.gapbox{background:var(--redbg);border-radius:14px;padding:14px 16px;margin-top:16px;color:#7f2f1d;font-size:15px}
+.gapbox b{display:block;font-size:16px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.actions button{background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:7px 14px;font-size:13px;color:var(--ink)}
+.actions button:hover{border-color:var(--ink)}.actions button.sel{background:var(--night);border-color:var(--night);color:#fff}
+.actions .note{font-size:13px;color:var(--soft)}
+.src{border:1px solid var(--line);border-radius:14px;margin-bottom:10px;background:var(--paper);overflow:hidden;animation:rise .4s ease both}
+.src button{width:100%;background:transparent;border:0;text-align:left;padding:12px 14px;display:flex;gap:12px;align-items:flex-start}
+.src .n{flex:none;width:26px;height:26px;border-radius:8px;background:var(--gold);color:var(--night);font-weight:700;display:grid;place-content:center;font-size:13px}
+.src b{display:block;font-size:15px;line-height:1.3}.src small{color:var(--soft);font-size:13px}
+.src .more{padding:0 14px 14px 52px;font-size:14px;color:var(--soft);display:none}
+.src.open .more{display:block}
+.empty-src{color:var(--soft);font-size:15px}
+.rise{animation:rise .4s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.foot{margin-top:40px;font-size:13px;color:var(--soft)}.foot a{color:var(--ink)}
+.menu{display:none}
+@media(max-width:960px){
+  .loginwrap{grid-template-columns:1fr}.lpanel{min-height:260px}
+  .shell{grid-template-columns:1fr}
+  .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;gap:12px}
+  .side .recent,.side .safe,.side h4{display:none}.side .newq{width:auto;padding:10px 16px}
+  .user{border:0;padding:0;margin-left:auto}.user div{display:none}
+  .main{padding:22px 16px 50px}.cols,.welcome{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important}}
+</style>
+</head>
+<body>
+
+<!-- sign in -->
+<div class="loginwrap" id="loginView">
+  <div class="lpanel">
+    <svg class="rings" viewBox="0 0 620 620" aria-hidden="true"><g fill="none" stroke-linecap="round"><circle cx="310" cy="310" r="280" stroke="#2f3363" stroke-width="2"/><circle cx="310" cy="310" r="220" stroke="#e0705a" stroke-width="3" stroke-dasharray="100 34 6 34" opacity=".8"/><circle cx="310" cy="310" r="160" stroke="#8fc0a9" stroke-width="3" stroke-dasharray="70 26 5 26" opacity=".7"/><circle cx="310" cy="310" r="100" stroke="#f0b95a" stroke-width="3" stroke-dasharray="46 20 4 20" opacity=".8"/></g></svg>
+    <a class="brand" href="index.html"><svg width="36" height="36" viewBox="0 0 38 38" aria-hidden="true"><circle cx="19" cy="19" r="18" fill="none" stroke="#e0705a" stroke-width="2.5" stroke-dasharray="26 6"/><circle cx="19" cy="19" r="11" fill="none" stroke="#8fc0a9" stroke-width="2.5" stroke-dasharray="16 5"/><circle cx="19" cy="19" r="4" fill="#f0b95a"/></svg><span>MedNest<small>Internal Medicine</small></span></a>
+    <div><h2>The answer is <em>already in our library.</em></h2><p style="margin-top:16px">Find what our own protocols and references say, in seconds, without leaving the exam room.</p></div>
+  </div>
+  <div class="lform">
+    <form id="loginForm" novalidate>
+      <h1>Staff sign in</h1><p class="sub">Use your MedNest work account.</p>
+      <label for="em">Work email</label><input id="em" type="email" autocomplete="username">
+      <label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password">
+      <button class="btn" type="submit">Sign in</button>
+      <div class="err" id="loginErr" role="alert"></div>
+      <div class="hint" id="hint" hidden>Demo account: <code id="hintEm"></code> / <code id="hintPw"></code></div>
+      <a class="back" href="index.html">Back to the main site</a>
+    </form>
+  </div>
+</div>
+
+<!-- app -->
+<div class="shell" id="appView" hidden>
+  <aside class="side">
+    <a class="brand" href="index.html"><svg width="34" height="34" viewBox="0 0 38 38" aria-hidden="true"><circle cx="19" cy="19" r="18" fill="none" stroke="#e0705a" stroke-width="2.5" stroke-dasharray="26 6"/><circle cx="19" cy="19" r="11" fill="none" stroke="#8fc0a9" stroke-width="2.5" stroke-dasharray="16 5"/><circle cx="19" cy="19" r="4" fill="#f0b95a"/></svg><span>MedNest<small>Clinical Library</small></span></a>
+    <button class="newq" id="newq" type="button">+ New question</button>
+    <div style="min-height:0;flex:1;display:flex;flex-direction:column"><h4>This session</h4><div class="recent" id="recent"><div class="none">Your questions will appear here.</div></div></div>
+    <div class="safe"><b>Reference only</b>Helps you find information in our documents. It does not replace your training, our protocols or a physician's judgment. Emergency: call 911.</div>
+    <div class="user"><span class="av" id="initials"></span><div><b id="uname"></b><span id="urole"></span></div><button id="signout" type="button">Sign out</button></div>
+  </aside>
+
+  <main class="main">
+    <div class="greet" id="greet"></div>
+    <h1>What do you need to look up?<span class="pill" id="preview" hidden>Preview mode</span></h1>
+    <form class="search" id="ask">
+      <textarea id="q" rows="1" placeholder="Ask in plain language, for example: What are the danger signs of severe malaria?" aria-label="Your question"></textarea>
+      <button class="btn" id="send" type="submit">Ask</button>
+    </form>
+    <div class="chips" id="chips"></div>
+
+    <div class="welcome" id="welcome">
+      <div class="tip"><b>Cited answers</b><span>Every answer shows the documents and sections it came from. Open a source to read the passage.</span></div>
+      <div class="tip"><b>Honest gaps</b><span>If our library does not cover a question, the tool says so and flags it for a clinical lead.</span></div>
+      <div class="tip"><b>Follow-ups work</b><span>Ask a follow-up and it remembers what you were just discussing.</span></div>
+    </div>
+
+    <div class="view" id="view" hidden></div>
+    <p class="foot">Answers come from public health documents. <a href="case-study.html">How this was built</a></p>
+  </main>
+</div>
+
+<script src="config.js"></script>
+<script>
+const C = window.MEDNEST || {};
+const API = C.api || {}, HOOK = C.zapier || {}, LOGIN = C.login || {};
+const MOCK = !/^https?:\/\//.test(API.url || '') || new URLSearchParams(location.search).has('mock');
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+$('preview').hidden = !MOCK;
+
+/* ---------- demo login ---------- */
+function signedIn(){ try { return sessionStorage.getItem('mednest-in') === '1' } catch(e){ return false } }
+function showApp(on){
+  $('loginView').hidden = on; $('appView').hidden = !on;
+  if (on) {
+    const first = (LOGIN.userName || '').split(' ')[0] || 'there';
+    const h = new Date().getHours();
+    $('greet').textContent = (h < 12 ? 'Good morning' : h < 18 ? 'Good afternoon' : 'Good evening') + ', ' + first;
+    $('uname').textContent = LOGIN.userName || ''; $('urole').textContent = LOGIN.userRole || '';
+    $('initials').textContent = (LOGIN.userName || '?').split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+    $('q').focus();
+  }
+}
+$('hint').hidden = !LOGIN.showHint; $('hintEm').textContent = LOGIN.email; $('hintPw').textContent = LOGIN.password;
+$('loginForm').addEventListener('submit', e => {
+  e.preventDefault();
+  if ($('em').value.trim().toLowerCase() === String(LOGIN.email).toLowerCase() && $('pw').value === LOGIN.password) {
+    try { sessionStorage.setItem('mednest-in','1') } catch(x){}
+    $('loginErr').textContent = ''; showApp(true);
+  } else { $('loginErr').textContent = 'That email and password do not match.' }
+});
+$('signout').addEventListener('click', () => { try { sessionStorage.removeItem('mednest-in') } catch(e){} showApp(false); $('pw').value = '' });
+showApp(signedIn());
+
+/* ---------- suggestions ---------- */
+$('chips').innerHTML = (C.suggested || []).map(s => `<button class="chip" type="button">${esc(s)}</button>`).join('');
+$('chips').addEventListener('click', e => { const b = e.target.closest('.chip'); if (b && !busy) { $('q').value = b.textContent; $('ask').requestSubmit() } });
+
+/* ---------- Zapier hooks (fire and forget, form-encoded so there is no CORS preflight) ---------- */
+function hook(url, data){
+  if (!/^https?:\/\//.test(url || '')) return;
+  const body = new URLSearchParams(Object.assign({ user: LOGIN.userName, role: LOGIN.userRole, timestamp: new Date().toISOString() }, data));
+  try { fetch(url, { method:'POST', mode:'no-cors', body }).catch(()=>{}) } catch(e){}
+}
+
+/* ---------- ask ---------- */
+let busy = false, convo = [], entries = [], current = -1;
+const ta = $('q');
+ta.addEventListener('input', () => { ta.style.height = 'auto'; ta.style.height = Math.min(ta.scrollHeight, 150) + 'px' });
+ta.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); $('ask').requestSubmit() } });
+$('newq').addEventListener('click', () => { convo = []; current = -1; $('view').hidden = true; $('welcome').hidden = false; drawRecent(); ta.focus() });
+
+function drawRecent(){
+  $('recent').innerHTML = entries.length ? entries.map((e,i) => `<button type="button" data-i="${i}" class="${i === current ? 'on' : ''}"><i class="${e.answered ? '' : 'gap'}"></i><span>${esc(e.q)}</span></button>`).reverse().join('') : '<div class="none">Your questions will appear here.</div>';
+}
+$('recent').addEventListener('click', e => { const b = e.target.closest('button[data-i]'); if (b && !busy) show(+b.dataset.i) });
+
+$('ask').addEventListener('submit', async e => {
+  e.preventDefault();
+  const question = ta.value.trim();
+  if (!question || busy) return;
+  busy = true; $('send').disabled = true; ta.value = ''; ta.style.height = 'auto';
+  $('welcome').hidden = true; $('view').hidden = false;
+  $('view').innerHTML = `<h2 class="qtitle rise">${esc(question)}</h2><div class="cols"><div class="panel rise"><h4>Working on it</h4><div class="prog" id="prog"><div class="on"><i></i>Understanding the question</div><div><i></i>Searching the library</div><div><i></i>Writing a cited answer</div></div></div><div class="panel rise"><h4>Sources</h4><p class="empty-src">Sources appear here when the answer is ready.</p></div></div>`;
+  const mark = n => [...$('prog').children].forEach((d,k) => d.className = k < n ? 'done' : (k === n ? 'on' : ''));
+  let result;
+  try {
+    const p = MOCK ? mockCall(question) : realCall(question);
+    await sleep(450); mark(1); await sleep(650); mark(2);
+    result = await p; mark(3); await sleep(280);
+  } catch (err) {
+    $('view').innerHTML = `<h2 class="qtitle">${esc(question)}</h2><div class="panel"><div class="gapbox"><b>That did not work</b>${esc(err.message || 'Something went wrong.')}</div></div>`;
+    busy = false; $('send').disabled = false; return;
+  }
+  const answered = result.sources.length > 0 && !NO_INFO.test(result.answer);
+  entries.push({ q: question, r: result, answered });
+  convo.push({ role:'user', content: question }, { role:'assistant', content: result.answer });
+  convo = convo.slice(-10);
+  show(entries.length - 1, true);
+  busy = false; $('send').disabled = false; ta.focus();
+});
+
+async function realCall(question){
+  const body = { [API.messageField || 'message']: question, [API.historyField || 'history']: convo.slice() };
+  const headers = { 'Content-Type': 'application/json' };
+  if (API.key) headers[API.keyHeader || 'X-API-Key'] = API.key;
+  let res;
+  try { res = await fetch(API.url, { method:'POST', headers, body: JSON.stringify(body) }) }
+  catch (e) { throw new Error('Could not reach the knowledge base. Check the API URL and CORS settings in config.js.') }
+  if (res.status === 401 || res.status === 403) throw new Error('The knowledge base rejected the API key.');
+  if (!res.ok) throw new Error('The knowledge base answered with an error (' + res.status + ').');
+  return normalize(await res.json());
+}
+/* Tolerant reader so small naming differences in the API response do not break the page. */
+function pick(o, ...keys){ for (const k of keys) { if (o && o[k] != null) return o[k] } return undefined }
+function normalize(j){
+  const answer = String(pick(j, 'answer','Answer','response','Response','message','Message','text','content') ?? '');
+  const raw = pick(j, 'sources','Sources','citations','Citations') || [];
+  return { answer, sources: raw.map(s => ({
+    title: pick(s, 'documentTitle','DocumentTitle','title','Title','document','fileName') || 'Untitled document',
+    section: pick(s, 'sectionTitle','SectionTitle','section','Section','heading') || '',
+    snippet: pick(s, 'content','Content','text','Text','snippet','Snippet','chunk') || ''
+  })) };
+}
+const NO_INFO = /(i (do not|don't) have (any )?information|no information (on|about)|not covered|cannot find|couldn't find|outside (of )?(the|my) (documents|library|scope)|can only help with|i can't help with)/i;
+
+function friendlyDoc(t){
+  const names = (window.MEDNEST && MEDNEST.docNames) || {};
+  const key = String(t||'').replace(/\.pdf$/i,'');
+  if (names[t] || names[key]) return names[t] || names[key];
+  if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(key)) return 'Library document';
+  return t;
+}
+function fmtAnswer(raw){
+  const lines = String(raw).split(/\r?\n/); let html = '', list = false;
+  const inline = s => esc(s).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/\[(\d+)\]/g,'<span class="cite">$1</span>');
+  for (const ln of lines){
+    const m = ln.match(/^\s*(?:[-*\u2022]|\d+[.)])\s+(.*)$/);
+    if (m){ if(!list){html+='<ul>';list=true} html+='<li>'+inline(m[1])+'</li>'; }
+    else { if(list){html+='</ul>';list=false} if(ln.trim()) html+='<p>'+inline(ln)+'</p>'; }
+  }
+  if(list) html+='</ul>';
+  return html;
+}
+function show(i, fresh){
+  current = i; drawRecent();
+  const { q, r, answered } = entries[i];
+  $('welcome').hidden = true; $('view').hidden = false;
+  const text = fmtAnswer(r.answer);
+  $('view').innerHTML = `
+    <h2 class="qtitle">${esc(q)}</h2>
+    <div class="cols">
+      <div class="panel ${fresh ? 'rise' : ''}">
+        <h4>Answer</h4>
+        <div class="answer">${text}</div>
+        ${answered ? '' : `<div class="gapbox"><b>Our library does not cover this.</b>It has been flagged for a clinical lead to follow up. You can also send it now.</div>`}
+        <div class="actions">
+          ${answered ? `<button type="button" data-fb="up">Helpful</button><button type="button" data-fb="down">Not helpful</button>` : ''}
+          <button type="button" data-esc="1" class="${answered ? '' : 'sel'}">Send to clinical lead</button>
+          <span class="note" id="note">${answered ? '' : (fresh ? 'Flagged automatically.' : '')}</span>
+        </div>
+      </div>
+      <div class="panel ${fresh ? 'rise' : ''}">
+        <h4>Sources ${answered ? '(' + r.sources.length + ')' : ''}</h4>
+        ${answered ? r.sources.map((s,k) => `<div class="src ${k === 0 ? 'open' : ''}" style="animation-delay:${k*0.12}s"><button type="button" aria-expanded="${k === 0}"><span class="n">${k+1}</span><span><b>${esc(s.section || friendlyDoc(s.title))}</b>${s.section ? `<small>${esc(friendlyDoc(s.title))}</small>` : ''}</span></button>${s.snippet ? `<div class="more">${esc(String(s.snippet).slice(0,500))}${String(s.snippet).length > 500 ? '...' : ''}</div>` : ''}</div>`).join('') : '<p class="empty-src">No documents matched this question.</p>'}
+      </div>
+    </div>`;
+  const base = { question: q, answer: r.answer.slice(0, 600), sources: r.sources.map(s => (s.section || friendlyDoc(s.title))).join(' | '), source_count: r.sources.length, answered: answered ? 'yes' : 'no' };
+  if (fresh) {
+    hook(HOOK.logHook, Object.assign({ event: 'question' }, base));
+    if (!answered) hook(HOOK.alertHook, Object.assign({ event: 'unanswered' }, base));
+  }
+  const view = $('view');
+  view.onclick = e => {
+    const sb = e.target.closest('.src button');
+    if (sb) { const s = sb.parentElement; s.classList.toggle('open'); sb.setAttribute('aria-expanded', s.classList.contains('open')); return }
+    const b = e.target.closest('.actions button'); if (!b) return;
+    const note = $('note');
+    if (b.dataset.fb) {
+      view.querySelectorAll('[data-fb]').forEach(x => x.classList.remove('sel')); b.classList.add('sel');
+      const up = b.dataset.fb === 'up';
+      hook(HOOK.logHook, Object.assign({ event: 'feedback', feedback: up ? 'helpful' : 'not helpful' }, base));
+      if (!up) { hook(HOOK.alertHook, Object.assign({ event: 'not_helpful', feedback: 'not helpful' }, base)); note.textContent = 'Thanks. A clinical lead will take a look.' } else note.textContent = 'Thanks for the feedback.';
+    } else if (b.dataset.esc) {
+      b.classList.add('sel'); b.disabled = true;
+      hook(HOOK.alertHook, Object.assign({ event: 'escalated' }, base));
+      note.textContent = 'Sent to the clinical lead.';
+    }
+  };
+  if (fresh) view.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+/* ---------- preview mode: short sample answers so the page can be shown before the API is connected ---------- */
+async function mockCall(q){
+  await sleep(1300);
+  const t = q.toLowerCase();
+  if (/danger|severe/.test(t) && /malaria/.test(t)) return { answer: 'Signs that malaria may be severe include being unable to sit, stand or drink, repeated convulsions, impaired consciousness, difficulty breathing, jaundice, and signs of severe anemia such as marked pallor [1]. A patient with any of these signs needs urgent referral to a higher level of care, and treatment should not wait for a transfer to be arranged [2]. (Preview sample text.)',
+    sources: [{ title: 'Preview sample: Severe malaria guideline', section: 'Recognizing severe disease', snippet: 'Sample passage shown in preview mode. Connect the API to see real passages from your ingested documents.' }, { title: 'Preview sample: Referral and transfer', section: 'Before transfer', snippet: 'Sample passage shown in preview mode.' }] };
+  if (/test|diagnos/.test(t) && /malaria|treat/.test(t)) return { answer: 'Where testing is available, suspected malaria should be confirmed with a parasitological test, such as a rapid diagnostic test or microscopy, before treatment is started [1]. (Preview sample text.)',
+    sources: [{ title: 'Preview sample: Malaria diagnosis and treatment', section: 'Confirming the diagnosis', snippet: 'Sample passage shown in preview mode.' }] };
+  if (/prevent|travel|advice|net/.test(t)) return { answer: 'Advise travelers to use insecticide-treated nets and insect repellent, and to seek care promptly if a fever develops during or after the trip [1]. (Preview sample text.)',
+    sources: [{ title: 'Preview sample: Prevention and advice', section: 'Personal protection', snippet: 'Sample passage shown in preview mode.' }] };
+  return { answer: 'I do not have information on that in the library.', sources: [] };
+}
+</script>
+</body>
+</html>

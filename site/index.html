@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MedNest Internal Medicine</title>
+<meta name="description" content="Adult primary care and chronic disease management from a team that knows you.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--night:#1e2140;--night2:#2a2e55;--sand:#f6efe4;--cream:#fffaf2;--ink:#1e2140;--soft:#5f6178;--line:#e6dccb;--terra:#e0705a;--sage:#8fc0a9;--gold:#f0b95a}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:"Figtree",system-ui,sans-serif;font-size:17px;line-height:1.6}
+a{color:inherit}:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+h1,h2,h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;letter-spacing:-.025em;line-height:1.02;margin:0}
+.wrap{max-width:1200px;margin:0 auto;padding:0 32px}
+/* hero */
+.top{background:var(--night);color:#fff;position:relative;overflow:hidden}
+nav{display:flex;align-items:center;justify-content:space-between;padding:24px 0;gap:16px;position:relative;z-index:2}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em}
+.brand small{font-family:"Figtree",sans-serif;font-weight:500;font-size:13px;letter-spacing:.04em;color:#b9bbd8;text-transform:uppercase;display:block;line-height:1;margin-top:3px}
+.links{display:flex;align-items:center;gap:28px;font-size:15px}
+.links a{text-decoration:none;color:#c9cbe4}.links a:hover{color:#fff}
+.btn{display:inline-block;background:var(--terra);color:#fff!important;text-decoration:none;border-radius:12px;padding:12px 22px;font-weight:600;font-size:15px;transition:.15s}
+.btn:hover{background:#c95d49;transform:translateY(-1px)}
+.btn.out{background:transparent;border:1.5px solid #6a6e9a}.btn.out:hover{background:rgba(255,255,255,.08)}
+.btn.dark{background:var(--night)}.btn.dark:hover{background:var(--night2)}
+.hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:40px;align-items:center;padding:56px 0 110px;position:relative;z-index:2}
+.eyebrow{display:inline-flex;gap:10px;align-items:center;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--sage);margin-bottom:22px}
+.eyebrow i{width:28px;height:2px;background:var(--sage)}
+.hero h1{font-size:clamp(44px,6.6vw,84px);font-weight:700}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero p{font-size:20px;color:#c9cbe4;max-width:540px;margin:24px 0 32px}
+.cta{display:flex;gap:12px;flex-wrap:wrap}
+.slots{background:var(--cream);color:var(--ink);border-radius:26px;padding:26px;box-shadow:0 40px 60px -30px rgba(0,0,0,.5);max-width:380px;justify-self:end;width:100%}
+.slots h3{font-size:20px;margin-bottom:4px}.slots p{margin:0 0 16px;font-size:14px;color:var(--soft)}
+.slot{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-top:1px solid var(--line);font-size:15px}
+.slot b{font-weight:600}.slot span{background:var(--sand);border-radius:8px;padding:3px 10px;font-size:13px;font-weight:600}
+.rings{position:absolute;right:-180px;top:-120px;width:760px;height:760px;opacity:.9;z-index:1;pointer-events:none}
+/* strip */
+.strip{display:grid;grid-template-columns:repeat(4,1fr);margin-top:-52px;position:relative;z-index:3;background:#fff;border-radius:22px;box-shadow:0 24px 50px -28px rgba(30,33,64,.35);border:1px solid var(--line)}
+.strip div{padding:26px 28px;border-left:1px solid var(--line)}.strip div:first-child{border-left:0}
+.strip b{font-family:"Bricolage Grotesque",sans-serif;font-size:34px;display:block;line-height:1;letter-spacing:-.02em}
+.strip span{font-size:14px;color:var(--soft)}
+section{padding:84px 0 0}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:34px;flex-wrap:wrap}
+.head h2{font-size:clamp(32px,4.6vw,52px);max-width:640px}
+.head p{max-width:380px;color:var(--soft);margin:0}
+/* editorial list */
+.rows{border-top:2px solid var(--ink)}
+.row{display:grid;grid-template-columns:70px minmax(0,1fr) minmax(0,1.3fr);gap:20px;padding:26px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.row .n{font-family:"Bricolage Grotesque",sans-serif;color:var(--terra);font-weight:600}
+.row h3{font-size:26px}.row p{margin:0;color:var(--soft)}
+/* doctors */
+.docs{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.doc{background:var(--sand);border-radius:24px;padding:26px}
+.av{width:68px;height:68px;border-radius:50%;display:grid;place-content:center;font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:24px;color:#fff;margin-bottom:18px}
+.doc h3{font-size:22px}.doc small{display:block;color:var(--soft);margin:2px 0 10px;font-weight:500}.doc p{margin:0;font-size:15px;color:var(--soft)}
+/* visit */
+.visit{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0;background:var(--night);color:#fff;border-radius:30px;overflow:hidden}
+.visit>div{padding:46px}.visit>div:last-child{background:var(--night2)}
+.visit h2{font-size:clamp(30px,4vw,44px);margin-bottom:14px}.visit p{color:#c9cbe4;margin:0 0 6px}
+.visit ul{list-style:none;padding:0;margin:0}.visit li{padding:12px 0 12px 34px;border-top:1px solid #444977;position:relative;color:#e6e7f5}
+.visit li:before{content:"";position:absolute;left:0;top:18px;width:16px;height:16px;border-radius:50%;border:2px solid var(--sage)}
+footer{padding:60px 0 56px;color:var(--soft);font-size:14px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+@media(max-width:900px){.hero,.visit,.docs{grid-template-columns:1fr}.slots{justify-self:start}.strip{grid-template-columns:1fr 1fr}.strip div:nth-child(3){border-left:0}.strip div:nth-child(n+3){border-top:1px solid var(--line)}.row{grid-template-columns:1fr;gap:6px}.links a:not(.btn){display:none}.wrap{padding:0 18px}.visit>div{padding:30px}.hero{padding-bottom:90px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="top">
+  <svg class="rings" viewBox="0 0 760 760" aria-hidden="true"><g fill="none" stroke-linecap="round"><circle cx="380" cy="380" r="340" stroke="#2f3363" stroke-width="2"/><circle cx="380" cy="380" r="270" stroke="#e0705a" stroke-width="3" stroke-dasharray="120 40 8 40" opacity=".8"/><circle cx="380" cy="380" r="200" stroke="#8fc0a9" stroke-width="3" stroke-dasharray="90 30 6 30" opacity=".7"/><circle cx="380" cy="380" r="130" stroke="#f0b95a" stroke-width="3" stroke-dasharray="60 24 4 24" opacity=".8"/><circle cx="380" cy="380" r="60" fill="#2a2e55" stroke="#3f4380" stroke-width="2"/></g></svg>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="index.html"><svg width="38" height="38" viewBox="0 0 38 38" aria-hidden="true"><circle cx="19" cy="19" r="18" fill="none" stroke="#e0705a" stroke-width="2.5" stroke-dasharray="26 6"/><circle cx="19" cy="19" r="11" fill="none" stroke="#8fc0a9" stroke-width="2.5" stroke-dasharray="16 5"/><circle cx="19" cy="19" r="4" fill="#f0b95a"/></svg><span>MedNest<small>Internal Medicine</small></span></a>
+      <div class="links"><a href="#services">Services</a><a href="#team">Our physicians</a><a href="#visit">Your visit</a><a class="btn out" href="portal.html">Staff login</a></div>
+    </nav>
+    <div class="hero">
+      <div>
+        <div class="eyebrow"><i></i>Adult primary care</div>
+        <h1>Medicine that knows <em>your whole story.</em></h1>
+        <p>MedNest Internal Medicine is a physician-led practice for adults. We look after everyday health, long-term conditions and everything in between, with time to listen.</p>
+        <div class="cta"><a class="btn" href="#visit">Book a visit</a><a class="btn out" href="#services">What we treat</a></div>
+      </div>
+      <div class="slots">
+        <h3>Next available</h3><p>Same-week appointments at all three offices.</p>
+        <div class="slot"><b>Tue 10:15 am</b><span>Annual physical</span></div>
+        <div class="slot"><b>Wed 2:40 pm</b><span>Follow-up</span></div>
+        <div class="slot"><b>Thu 9:00 am</b><span>New patient</span></div>
+        <div class="slot"><b>Fri 11:30 am</b><span>Telehealth</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="strip">
+    <div><b>3</b><span>offices in the region</span></div>
+    <div><b>30 min</b><span>standard visit length</span></div>
+    <div><b>Same week</b><span>appointments for most needs</span></div>
+    <div><b>Adults 18+</b><span>and older, no upper limit</span></div>
+  </div>
+
+  <section id="services">
+    <div class="head"><h2>Everything an adult patient needs, in one place</h2><p>One team coordinates your care, so you are not repeating your history to a new person every time.</p></div>
+    <div class="rows">
+      <div class="row"><span class="n">01</span><h3>Preventive care</h3><p>Annual physicals, screenings, vaccinations and personalized plans to stay well.</p></div>
+      <div class="row"><span class="n">02</span><h3>Chronic conditions</h3><p>Ongoing management of diabetes, high blood pressure, cholesterol, asthma and thyroid conditions.</p></div>
+      <div class="row"><span class="n">03</span><h3>Acute illness</h3><p>Same-week visits for infections, injuries, new symptoms and flare-ups.</p></div>
+      <div class="row"><span class="n">04</span><h3>Travel health</h3><p>Pre-travel advice and vaccines, and prompt evaluation if you fall ill after a trip.</p></div>
+      <div class="row"><span class="n">05</span><h3>Telehealth</h3><p>Video visits for follow-ups, prescription reviews and quick questions from home.</p></div>
+      <div class="row"><span class="n">06</span><h3>On-site lab</h3><p>Routine blood work and tests at our main office, with results shared in your portal.</p></div>
+    </div>
+  </section>
+
+  <section id="team">
+    <div class="head"><h2>The physicians behind MedNest</h2><p>Board-certified in internal medicine, and committed to care that is thorough and unhurried.</p></div>
+    <div class="docs">
+      <div class="doc"><div class="av" style="background:#e0705a">AO</div><h3>Dr. Amara Okafor</h3><small>Medical Director</small><p>Focus on chronic disease and preventive medicine. Leads our care coordination team.</p></div>
+      <div class="doc"><div class="av" style="background:#5f8f7a">DR</div><h3>Dr. Daniel Reyes</h3><small>Internal Medicine</small><p>Interested in diabetes care, hypertension and travel medicine.</p></div>
+      <div class="doc"><div class="av" style="background:#8a7bc4">PN</div><h3>Dr. Priya Nair</h3><small>Internal Medicine</small><p>Focus on women's health in midlife, bone health and healthy aging.</p></div>
+    </div>
+  </section>
+
+  <section id="visit" style="padding-bottom:20px">
+    <div class="visit">
+      <div><h2>Planning your visit</h2><p>New patients are welcome. Most first visits take about 45 minutes, so plan to arrive early to complete your forms.</p><p style="margin-top:18px">In an emergency, call 911.</p><p style="margin-top:22px"><a class="btn" href="#visit">Request an appointment</a></p></div>
+      <div><ul><li>Photo ID and your insurance card</li><li>A list of your medications and supplements</li><li>Records from previous doctors, if you have them</li><li>Questions you want to ask, written down</li></ul></div>
+    </div>
+  </section>
+
+  <footer><span>MedNest Internal Medicine is a fictional practice built for a portfolio demo.</span><span>Mon to Fri 8 am to 5 pm</span></footer>
+</div>
+</body>
+</html>
