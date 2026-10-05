@@ -1,6 +1,6 @@
-# MedNest Internal Medicine demo: clinical knowledge base with Zapier and an Azure Function
+# MedNest Internal Medicine: clinical knowledge base with Zapier and an Azure Function
 
-A portfolio demo for a fictional adult internal-medicine practice. Staff (medical assistants, nurses, community health workers) ask questions and get cited answers from the organization's own documents. Your existing SpecialistAI backend does the answering. Zapier and a small Azure Function wrap it in the day-to-day workflow.
+A portfolio demo for a adult internal-medicine practice. Staff (medical assistants, nurses, community health workers) ask questions and get cited answers from the organization's own documents. Your existing SpecialistAI backend does the answering. Zapier and a small Azure Function wrap it in the day-to-day workflow.
 
 ```
 site/index.html      Public company home page (no mention of the AI tool, just a Staff login button)
